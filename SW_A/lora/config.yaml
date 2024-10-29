@@ -1,0 +1,77 @@
+job: extension
+config:
+  name: sweater_A_lora_v1
+  process:
+  - type: sd_trainer
+    training_folder: SW_A_output
+    performance_log_every: 100
+    device: cuda:0
+    trigger_word: SW_A
+    network:
+      type: lora
+      linear: 64
+      linear_alpha: 64
+    save:
+      dtype: float16
+      save_every: 100
+      max_step_saves_to_keep: 20
+    datasets:
+    - folder_path: SW_A
+      caption_ext: txt
+      caption_dropout_rate: 0.005
+      shuffle_tokens: false
+      cache_latents_to_disk: true
+      resolution:
+      - 768
+      - 1024
+    train:
+      batch_size: 6
+      steps: 2000
+      gradient_accumulation_steps: 2
+      train_unet: true
+      train_text_encoder: false
+      content_or_style: balanced
+      gradient_checkpointing: true
+      noise_scheduler: flowmatch
+      optimizer: adamw8bit
+      lr: 8.0e-05
+      lr_scheduler: cosine
+      scheduler_params:
+        T_max: 2000
+        eta_min: 1.0e-05
+      ema_config:
+        use_ema: true
+        ema_decay: 0.99
+      dtype: bf16
+    model:
+      name_or_path: black-forest-labs/FLUX.1-dev
+      is_flux: true
+      quantize: true
+    sample:
+      sampler: flowmatch
+      sample_every: 50
+      width: 768
+      height: 768
+      prompts:
+      - A model wearing a light brown SW_A sweater, standing with arms crossed against
+        a neutral grey backdrop, with studio lights highlighting the shoulders and
+        face.
+      - A light brown SW_A sweater hanging on a wooden hanger in front of a light-colored
+        wall
+      - A neatly folded brown SW_A sweater, placed on a glass display table with soft
+        overhead lighting
+      - An person wearing a white SW_A sweater, positioned sideways with hands at
+        sides, in a studio setting with a spotlight casting a soft shadow to the left.
+      - Two people sitting together on a cozy couch in a warmly lit living room decorated
+        for Christmas. One person is wearing the light brown SW_A sweater, while the
+        other wears the white SW_A sweater. They are both holding mugs of hot chocolate,
+        surrounded by festive decorations like a Christmas tree with twinkling lights,
+        garlands, and wrapped presents under the tree.
+      neg: ''
+      seed: 42
+      walk_seed: true
+      guidance_scale: 4
+      sample_steps: 20
+meta:
+  name: sweater_A_lora_v1
+  version: '1.0'

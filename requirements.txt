@@ -1,0 +1,3 @@
+pillow==11.0.0
+requests==2.32.3
+diffusers @ git+https://github.com/huggingface/diffusers.git@298ab6eb01f3ef475c15218ea87de1494e1250aa

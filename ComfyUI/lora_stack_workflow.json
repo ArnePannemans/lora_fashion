@@ -1,0 +1,577 @@
+{
+  "last_node_id": 29,
+  "last_link_id": 38,
+  "nodes": [
+    {
+      "id": 22,
+      "type": "VAELoader",
+      "pos": {
+        "0": 1249.9993896484375,
+        "1": -162.15762329101562
+      },
+      "size": {
+        "0": 315,
+        "1": 58
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            18
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "ae.safetensors"
+      ]
+    },
+    {
+      "id": 10,
+      "type": "DualCLIPLoader",
+      "pos": {
+        "0": -159,
+        "1": -1
+      },
+      "size": {
+        "0": 315,
+        "1": 106
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            12,
+            13,
+            38
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "DualCLIPLoader"
+      },
+      "widgets_values": [
+        "clip_l.safetensors",
+        "t5xxl_fp16.safetensors",
+        "flux"
+      ]
+    },
+    {
+      "id": 18,
+      "type": "UNETLoader",
+      "pos": {
+        "0": 155,
+        "1": 193
+      },
+      "size": {
+        "0": 315,
+        "1": 82
+      },
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            37
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UNETLoader"
+      },
+      "widgets_values": [
+        "flux1-dev.safetensors",
+        "default"
+      ]
+    },
+    {
+      "id": 28,
+      "type": "CR Apply LoRA Stack",
+      "pos": {
+        "0": 860,
+        "1": -139
+      },
+      "size": {
+        "0": 277.20001220703125,
+        "1": 66
+      },
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 37
+        },
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 38
+        },
+        {
+          "name": "lora_stack",
+          "type": "LORA_STACK",
+          "link": 35
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            36
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": null,
+          "slot_index": 1
+        },
+        {
+          "name": "show_help",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CR Apply LoRA Stack"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 14,
+      "type": "EmptyLatentImage",
+      "pos": {
+        "0": 734,
+        "1": 462
+      },
+      "size": {
+        "0": 315,
+        "1": 106
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            14
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptyLatentImage"
+      },
+      "widgets_values": [
+        1024,
+        1024,
+        1
+      ]
+    },
+    {
+      "id": 19,
+      "type": "VAEDecode",
+      "pos": {
+        "0": 1623,
+        "1": 50
+      },
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 17
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 18
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            19
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 21,
+      "type": "PreviewImage",
+      "pos": {
+        "0": 1933,
+        "1": -221
+      },
+      "size": {
+        "0": 766.87646484375,
+        "1": 953.3208618164062
+      },
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 19
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 15,
+      "type": "XlabsSampler",
+      "pos": {
+        "0": 1099,
+        "1": 48
+      },
+      "size": {
+        "0": 342.5999755859375,
+        "1": 282
+      },
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 36
+        },
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 20
+        },
+        {
+          "name": "neg_conditioning",
+          "type": "CONDITIONING",
+          "link": 21
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 14,
+          "shape": 7
+        },
+        {
+          "name": "controlnet_condition",
+          "type": "ControlNetCondition",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "links": [
+            17
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "XlabsSampler"
+      },
+      "widgets_values": [
+        679985722592019,
+        "randomize",
+        30,
+        20,
+        3,
+        0,
+        1
+      ]
+    },
+    {
+      "id": 16,
+      "type": "CLIPTextEncodeFlux",
+      "pos": {
+        "0": 62,
+        "1": 441
+      },
+      "size": {
+        "0": 400,
+        "1": 200
+      },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 13
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            21
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncodeFlux"
+      },
+      "widgets_values": [
+        "",
+        "",
+        3.5
+      ]
+    },
+    {
+      "id": 17,
+      "type": "CLIPTextEncodeFlux",
+      "pos": {
+        "0": 348,
+        "1": -322
+      },
+      "size": {
+        "0": 400,
+        "1": 200
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 12
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            20
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncodeFlux"
+      },
+      "widgets_values": [
+        "A male model, model_A, is facing forward with a slight head tilt. He is wearing a light brown, SWA_A weater. The background is a plain, light gray, which accentuates the neutral tones of the outfit.",
+        "A male model, model_A, is facing forward with a slight head tilt. He is wearing a light brown, SWA_A weater. The background is a plain, light gray, which accentuates the neutral tones of the outfit.",
+        4
+      ]
+    },
+    {
+      "id": 29,
+      "type": "CR LoRA Stack",
+      "pos": {
+        "0": 530,
+        "1": -20
+      },
+      "size": {
+        "0": 315,
+        "1": 342
+      },
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "lora_stack",
+          "type": "LORA_STACK",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LORA_STACK",
+          "type": "LORA_STACK",
+          "links": [
+            35
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "show_help",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CR LoRA Stack"
+      },
+      "widgets_values": [
+        "On",
+        "SW_A_lora_v1_000001800.safetensors",
+        0.66,
+        1,
+        "On",
+        "model_A_lora_v1_000002200.safetensors",
+        0.66,
+        1,
+        "Off",
+        "None",
+        1,
+        1
+      ]
+    }
+  ],
+  "links": [
+    [
+      12,
+      10,
+      0,
+      17,
+      0,
+      "CLIP"
+    ],
+    [
+      13,
+      10,
+      0,
+      16,
+      0,
+      "CLIP"
+    ],
+    [
+      14,
+      14,
+      0,
+      15,
+      3,
+      "LATENT"
+    ],
+    [
+      17,
+      15,
+      0,
+      19,
+      0,
+      "LATENT"
+    ],
+    [
+      18,
+      22,
+      0,
+      19,
+      1,
+      "VAE"
+    ],
+    [
+      19,
+      19,
+      0,
+      21,
+      0,
+      "IMAGE"
+    ],
+    [
+      20,
+      17,
+      0,
+      15,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      21,
+      16,
+      0,
+      15,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      35,
+      29,
+      0,
+      28,
+      2,
+      "LORA_STACK"
+    ],
+    [
+      36,
+      28,
+      0,
+      15,
+      0,
+      "MODEL"
+    ],
+    [
+      37,
+      18,
+      0,
+      28,
+      0,
+      "MODEL"
+    ],
+    [
+      38,
+      10,
+      0,
+      28,
+      1,
+      "CLIP"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.7513148009015777,
+      "offset": [
+        312.4255183526208,
+        588.236501165421
+      ]
+    }
+  },
+  "version": 0.4
+}
